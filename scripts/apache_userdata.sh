@@ -20,6 +20,14 @@ ls -ltr /var/www/html/
 sleep 5 
 sudo systemctl restart httpd
  
+#node exporter -binary
+#cpu/memory/process/loadusage/disc/load avg/uptime/metrics
+#download--extract---change permissions--start
+wget https://github.com/prometheus/node_exporter/releases/download/v1.7.0/node_exporter-1.7.0.linux-amd64.tar.gz
+tar xvfz node_exporter-*.*-amd64.tar.gz
+cd node_exporter-*.*-amd64
+./node_exporter
+
 
 
 

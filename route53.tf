@@ -21,3 +21,14 @@ resource "aws_route53_record" "wordpress_record" {
   }
 }
 
+resource "aws_route53_record" "grafana_record" {
+  zone_id = aws_route53_zone.hosted_zone.zone_id
+  name    = "metrics-internal.temparatureai.xyz"
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.oe_lb.dns_name
+    zone_id                = aws_lb.oe_lb.zone_id
+    evaluate_target_health = true
+  }
+}

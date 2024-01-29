@@ -40,7 +40,7 @@ data "aws_ami" "amazon" {
 
 
 resource "aws_security_group" "bastion" {
-  vpc_id =     aws_vpc.own_vpc.id
+  vpc_id      = aws_vpc.own_vpc.id
   name        = "bastion"
   description = "Allow TLS inbound traffic and all outbound traffic"
   # ingress = [  ]
@@ -52,7 +52,7 @@ resource "aws_security_group" "bastion" {
 
 resource "aws_vpc_security_group_ingress_rule" "ssh" {
   security_group_id = aws_security_group.bastion.id
-  cidr_ipv4         = "49.205.33.137/32"
+  cidr_ipv4         = "${chomp(data.http.myip.body)}/32"
   from_port         = 22
   ip_protocol       = "tcp"
   to_port           = 22
@@ -85,10 +85,10 @@ resource "aws_instance" "web" {
   ami           = data.aws_ami.amazon.id
   instance_type = "t2.micro"
   # key_name = "simple"
-  key_name = aws_key_pair.bastion.key_name
+  key_name               = aws_key_pair.bastion.key_name
   vpc_security_group_ids = [aws_security_group.bastion.id]
-  subnet_id = aws_subnet.public[0].id
- # aws_subnet.public[*].id
+  subnet_id              = aws_subnet.public[0].id
+  # aws_subnet.public[*].id
 
   tags = {
     Name      = "stage-bastion"
